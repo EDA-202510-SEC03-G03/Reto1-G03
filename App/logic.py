@@ -1,5 +1,6 @@
 import time
 import csv
+import DataStructures.array_list as lt
 
 csv.field_size_limit(2147483647)
 
@@ -46,7 +47,7 @@ def load_data(catalog, filename):
 
 def get_data(catalog, id):
     """
-    Retorna un dato por su ID.
+    Retorna un dato por su ID (posicion en el csv).
     """
     #TODO: Consulta en las Llamar la función del modelo para obtener un dato
     pass
