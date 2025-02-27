@@ -8,7 +8,29 @@ def new_logic():
     Crea el catalogo para almacenar las estructuras de datos
     """
     #TODO: Llama a las funciónes de creación de las estructuras de datos
-    pass
+    catalog = {'source': None,
+               'commodity': None,
+               'statical_category': None,
+               'unit_measurement': None,
+               'location': None,
+               'year_collection': None,
+               'freq_collection': None,
+               'reference_period': None,
+               'load_time': None,
+               'value': None }
+
+    catalog['source'] = lt.new_list()
+    catalog['commodity'] = lt.new_list()
+    catalog['statical_category'] = lt.new_list()
+    catalog['unit_measurement'] = lt.new_list()
+    catalog['location'] = lt.new_list()
+    catalog["year_collection"] = lt.new_list()
+    catalog["freq_collection"] = lt.new_list()
+    catalog["reference_period"] = lt.new_list()
+    catalog["load_time"] = lt.new_list()
+    catalog["value"] = lt.new_list()
+    
+    return catalog
 
 
 # Funciones para la carga de datos
