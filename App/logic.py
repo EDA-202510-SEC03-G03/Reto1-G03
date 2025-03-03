@@ -112,12 +112,24 @@ def req_1(catalog, anioB):
     return get_data(catalog, indexUR)
 
 
-def req_2(catalog):
+def req_2(catalog, dep):
     """
     Retorna el resultado del requerimiento 2
     """
     # TODO: Modificar el requerimiento 2
-    pass
+    
+    fechaUltimoRegistro = ["0001-01-01 00:00:00"]
+    indexUR = -1
+    for i in range(0, len(catalog['year_collection'])):
+        if str(catalog['location'][i]) == str(dep):
+            fechaR = catalog['load_time'][i]
+            fechaDT = datetime.strptime(fechaR, "%Y-%m-%d %H:%M:%S")
+            fechaURDT = datetime.strptime(fechaUltimoRegistro, "%Y-%m-%d %H:%M:%S")
+            if fechaDT > fechaURDT:
+                fechaUltimoRegistro = fechaR
+                indexUR = i
+                
+    return get_data(catalog, indexUR)
 
 
 def req_3(catalog):
