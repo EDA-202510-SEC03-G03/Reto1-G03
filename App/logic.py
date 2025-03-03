@@ -1,6 +1,7 @@
 import time
 import csv
 import DataStructures.array_list as lt
+import datetime
 
 csv.field_size_limit(2147483647)
 
@@ -77,12 +78,38 @@ def get_data(catalog, id):
     return resp
 
 
-def req_1(catalog):
+def req_1(catalog, anioB):
     """
     Retorna el resultado del requerimiento 1
     """
     # TODO: Modificar el requerimiento 1
-    pass
+    """""
+    fechasUltimoRegistro = ["0", "0", "0"]
+    horasUltimoRegistro = ["0", "0", "0"]
+    indexUR = -1
+    for i in range(0, len(catalog['year_collection'])):
+        registro = catalog['load_time'][i]
+        fechaRegistro = str(registro[:9])
+        fechasRegistro = fechaRegistro.split("-")
+        horaRegistro = str(registro[10:])
+        horasRegistro = horaRegistro.split(":")
+        if int(catalog['year_collection'][i]) == int(anioB):
+            if int(fechasRegistro[0]) > int(fechasUltimoRegistro[0]):
+                if int(fechasRegistro[1]) > int(fechasUltimoRegistro[1]):
+                    if int(fechasRegistro[2]) > int(fechasUltimoRegistro[2]):
+                    """
+    fechaUltimoRegistro = ["0001-01-01 00:00:00"]
+    indexUR = -1
+    for i in range(0, len(catalog['year_collection'])):
+        if int(catalog['year_collection'][i]) == int(anioB):
+            fechaR = catalog['load_time'][i]
+            fechaDT = datetime.strptime(fechaR, "%Y-%m-%d %H:%M:%S")
+            fechaURDT = datetime.strptime(fechaUltimoRegistro, "%Y-%m-%d %H:%M:%S")
+            if fechaDT > fechaURDT:
+                fechaUltimoRegistro = fechaR
+                indexUR = i
+                
+    return get_data(catalog, indexUR)
 
 
 def req_2(catalog):
