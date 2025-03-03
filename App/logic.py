@@ -55,7 +55,6 @@ def load_data(catalog, filename):
         lt.add_last(catalog['load_time'], register["load_time"])
         lt.add_last(catalog['value'], register["value"])
         
-    pass
 
 # Funciones de consulta sobre el catálogo
 
@@ -64,7 +63,18 @@ def get_data(catalog, id):
     Retorna un dato por su ID (posicion en el csv).
     """
     #TODO: Consulta en las Llamar la función del modelo para obtener un dato
-    pass
+    resp = {"source": catalog['source'][id],
+            "commodity": catalog['commodity'][id],
+            "statical_category": catalog['statical_category'][id],
+            "unit_measurement": catalog['unit_measurement'][id],
+            "location": catalog['location'][id],
+            "year_collection": catalog['year_collection'][id],
+            "freq_collection": catalog['freq_collection'][id],
+            "reference_period": catalog['reference_period'][id],
+            "load_time": catalog['load_time'][id],
+            "value": catalog['value'][id],
+            }
+    return resp
 
 
 def req_1(catalog):
