@@ -30,8 +30,14 @@ def load_data(control):
     """
     #TODO: Realizar la carga de datos
     data = l.load_data(control, "Data/agricultural-20.csv") 
-
+    print_data(data, 0)
     print("Carga de datos completada.")
+    print("Total de registros cargados: " + str(len(data["year_collection"])))
+    print("Menor anio de recoleccion: " + l.menor_anio(control))
+    print("Mayor anio de recoleccion: " + l.mayor_anio(control))
+    #primeros, ultimos = l.primerosYUltimos(control)
+    #for regsitro in primeros:
+    #    print_data(control, )
     
     return data
 
@@ -41,7 +47,14 @@ def print_data(control, id):
         Función que imprime un dato dado su ID
     """
     #TODO: Realizar la función para imprimir un elemento
-    pass
+    e = l.get_data(control, id)
+    print("Para el registro indicado la informacion es: ")
+    print("El anio de recolección fue: " + e["year_collection"])
+    print("La fecha de carga del registro fue: " + e["load_time"])
+    print("El nombre del departamento del registro fue: " + e["state_name"])
+    print("La unidad de medición del registro es: " + e["unit_measurement"])
+    print("El valor de la medición del registro es: " + e["value"])
+    
 
 def print_req_1(control):
     """

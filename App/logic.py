@@ -19,6 +19,7 @@ def new_logic():
                'commodity': None,
                'statical_category': None,
                'unit_measurement': None,
+               'state_name': None,
                'location': None,
                'year_collection': None,
                'freq_collection': None,
@@ -30,6 +31,7 @@ def new_logic():
     catalog['commodity'] = lt.new_list()
     catalog['statical_category'] = lt.new_list()
     catalog['unit_measurement'] = lt.new_list()
+    catalog['state_name'] = lt.new_list()
     catalog['location'] = lt.new_list()
     catalog["year_collection"] = lt.new_list()
     catalog["freq_collection"] = lt.new_list()
@@ -55,32 +57,60 @@ def load_data(catalog, filename):
         lt.add_last(catalog['commodity'], line[1])
         lt.add_last(catalog['statical_category'], line[2])
         lt.add_last(catalog['unit_measurement'], line[3])
-        lt.add_last(catalog['location'], line[4])
-        lt.add_last(catalog['year_collection'], line[5])
-        lt.add_last(catalog['freq_collection'], line[6])
-        lt.add_last(catalog['reference_period'], line[7])
-        lt.add_last(catalog['load_time'], line[8])
-        lt.add_last(catalog['value'], line[9])
+        lt.add_last(catalog['state_name'], line[4])
+        lt.add_last(catalog['location'], line[5])
+        lt.add_last(catalog['year_collection'], line[6])
+        lt.add_last(catalog['freq_collection'], line[7])
+        lt.add_last(catalog['reference_period'], line[8])
+        lt.add_last(catalog['load_time'], line[9])
+        lt.add_last(catalog['value'], line[10])
     
     return catalog
 
 # Funciones de consulta sobre el catálogo
+
+def menor_anio(catalog):
+    menor_anio = int(lt.first_element(catalog["year_collection"]))
+    for registro in catalog["year_collection"]:
+        anio = int(registro)
+        if anio < menor_anio:
+            menor_anio = anio  
+    return menor_anio
+
+def mayor_anio(catalog):
+    mayor_anio = int(lt.first_element(catalog["year_collection"]))
+    for registro in catalog["year_collection"]:
+        anio = int(registro)
+        if anio > mayor_anio:
+            mayor_anio = anio  
+    return mayor_anio
+
+def primerosYUltimos(catalog):
+    primeros = lt.new_list()
+    ultimos = lt.new_list()
+    
+    for i in range(0, 5):
+        lt.add_last(primeros, get_data(catalog, i))
+        lt.add_last(ultimos, get_data(catalog, len(catalog)-1-i))
+        
+    return primeros, ultimos
 
 def get_data(catalog, id):
     """
     Retorna un dato por su ID (posicion en el csv).
     """
     #TODO: Consulta en las Llamar la función del modelo para obtener un dato
-    resp = {"source": catalog['source'][id],
-            "commodity": catalog['commodity'][id],
-            "statical_category": catalog['statical_category'][id],
-            "unit_measurement": catalog['unit_measurement'][id],
-            "location": catalog['location'][id],
-            "year_collection": catalog['year_collection'][id],
-            "freq_collection": catalog['freq_collection'][id],
-            "reference_period": catalog['reference_period'][id],
-            "load_time": catalog['load_time'][id],
-            "value": catalog['value'][id],
+    resp = {"source": lt.get_element(catalog["source"], id),
+            "commodity": lt.get_element(catalog["commodity"], id),
+            "statical_category": lt.get_element(catalog["statical_category"], id),
+            "unit_measurement": lt.get_element(catalog["unit_measurement"], id),
+            "state_name": lt.get_element(catalog["state_name"], id),
+            "location": lt.get_element(catalog["location"], id),
+            "year_collection": lt.get_element(catalog["year_collection"], id),
+            "freq_collection": lt.get_element(catalog["freq_collection"], id),
+            "reference_period": lt.get_element(catalog["reference_period"], id),
+            "load_time": lt.get_element(catalog["load_time"], id),
+            "value": lt.get_element(catalog["value"], id),
             }
     return resp
 
