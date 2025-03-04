@@ -49,17 +49,18 @@ def load_data(catalog, filename):
     # TODO: Realizar la carga de datos
     input_file = csv.DictReader(open(filename, encoding='utf-8'))
     for register in input_file:
-        # Se adiciona el libro a la lista de libros
-        lt.add_last(catalog['source'], register["source"])
-        lt.add_last(catalog['commodity'], register["commodity"])
-        lt.add_last(catalog['statical_category'], register["statical_category"])
-        lt.add_last(catalog['unit_measurement'], register["unit_measurement"])
-        lt.add_last(catalog['location'], register["location"])
-        lt.add_last(catalog['year_collection'], register["year_collection"])
-        lt.add_last(catalog['freq_collection'], register["freq_collection"])
-        lt.add_last(catalog['reference_period'], register["reference_period"])
-        lt.add_last(catalog['load_time'], register["load_time"])
-        lt.add_last(catalog['value'], register["value"])
+        line = str(register).split(",")
+
+        lt.add_last(catalog['source'], line[0])
+        lt.add_last(catalog['commodity'], line[1])
+        lt.add_last(catalog['statical_category'], line[2])
+        lt.add_last(catalog['unit_measurement'], line[3])
+        lt.add_last(catalog['location'], line[4])
+        lt.add_last(catalog['year_collection'], line[5])
+        lt.add_last(catalog['freq_collection'], line[6])
+        lt.add_last(catalog['reference_period'], line[7])
+        lt.add_last(catalog['load_time'], line[8])
+        lt.add_last(catalog['value'], line[9])
     
     return catalog
 
