@@ -1,4 +1,5 @@
 import sys
+from App import logic as l
 
 
 def new_logic():
@@ -6,7 +7,9 @@ def new_logic():
         Se crea una instancia del controlador
     """
     #TODO: Llamar la función de la lógica donde se crean las estructuras de datos
-    pass
+    catalog = l.new_logic() 
+    
+    return catalog
 
 def print_menu():
     print("Bienvenido")
@@ -26,7 +29,11 @@ def load_data(control):
     Carga los datos
     """
     #TODO: Realizar la carga de datos
-    pass
+    data = l.load_data(control, "Data/agricultural-20.csv") 
+
+    print("Carga de datos completada.")
+    
+    return data
 
 
 def print_data(control, id):
@@ -65,7 +72,19 @@ def print_req_4(control):
         Función que imprime la solución del Requerimiento 4 en consola
     """
     # TODO: Imprimir el resultado del requerimiento 4
-    pass
+    producto = input("Ingrese el tipo de producto: ")
+    anio_inicio = int(input("Ingrese el año de inicio: "))
+    anio_fin = int(input("Ingrese el año de fin: "))
+    
+    resultado = l.req_4(control, producto, anio_inicio, anio_fin)
+    
+    print("Tiempo de ejecución (ms):", resultado["Tiempo de ejecución (ms)"])
+    print("Total registros:", resultado["Total registros"])
+    print("Total SURVEY:", resultado["Total SURVEY"])
+    print("Total CENSUS:", resultado["Total CENSUS"])
+    print("Registros:")
+    for registro in resultado["Registros"][:5] + resultado["Registros"][-5:] if len(resultado["Registros"]) > 20 else resultado["Registros"]:
+        print(registro)
 
 
 def print_req_5(control):
@@ -126,7 +145,7 @@ def main():
             print_req_3(control)
 
         elif int(inputs) == 5:
-            print_req_4(control)
+            print_req_4(data)
 
         elif int(inputs) == 6:
             print_req_5(control)

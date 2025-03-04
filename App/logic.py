@@ -1,8 +1,13 @@
 import time
 import csv
-import DataStructures.array_list as lt
-import datetime
+import sys
+import os
 
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+from DataStructures import array_list as lt
+
+import datetime
 csv.field_size_limit(2147483647)
 
 def new_logic():
@@ -55,7 +60,8 @@ def load_data(catalog, filename):
         lt.add_last(catalog['reference_period'], register["reference_period"])
         lt.add_last(catalog['load_time'], register["load_time"])
         lt.add_last(catalog['value'], register["value"])
-        
+    
+    return catalog
 
 # Funciones de consulta sobre el catálogo
 
@@ -140,12 +146,53 @@ def req_3(catalog):
     pass
 
 
-def req_4(catalog):
+def req_4(catalog, producto, anio_inicio, anio_fin):
     """
     Retorna el resultado del requerimiento 4
     """
     # TODO: Modificar el requerimiento 4
-    pass
+    inicio = time.time()
+    
+    registros_filtrados = []
+    total_survey = 0
+    total_census = 0
+    
+    for key, data in catalog.items():
+        try:
+            year = int(data['year_collection'])
+            if data['commodity'] == producto and anio_inicio <= year <= anio_fin:
+                registro = {
+                    "Fuente": data['source'],
+                    "Año_Recopilacion": year,
+                    "Fecha_Carga": data['load_time'],
+                    "Frecuencia": data['freq_collection'],
+                    "Departamento": data['location'],
+                    "Unidad": data['unit_measurement']
+                }
+                registros_filtrados.append(registro)
+                
+                if data['source'] == 'SURVEY':
+                    total_survey += 1
+                elif data['source'] == 'CENSUS':
+                    total_census += 1
+        except KeyError as e:
+            print(f"Advertencia: Falta la clave {e} en el registro {key}")
+        except ValueError:
+            print(f"Advertencia: No se pudo convertir el año en el registro {key}")
+
+    total_registros = len(registros_filtrados)
+    
+    fin = time.time()
+    tiempo_ejecucion = (fin - inicio) * 1000
+    
+    return {
+        "Tiempo de ejecución (ms)": tiempo_ejecucion,
+        "Total registros": total_registros,
+        "Total SURVEY": total_survey,
+        "Total CENSUS": total_census,
+        "Registros": registros_filtrados
+    }
+
 
 
 def req_5(catalog):
