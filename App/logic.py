@@ -277,12 +277,56 @@ def req_5(catalog):
     # TODO: Modificar el requerimiento 5
     pass
 
-def req_6(catalog):
+def req_6(catalog, nombre_departamento, initial_date, final_date):
     """
     Retorna el resultado del requerimiento 6
     """
-    # TODO: Modificar el requerimiento 6
-    pass
+    start_time = get_time()
+    registros_filtrados = []
+    total_registros = 0
+    total_survey = 0
+    total_census = 0
+    census = catalog["source"]["CENSUS"]
+    survey = catalog["source"]["SURVEY"]
+    
+    for registro in catalog:
+        departamento = registro["state_name"]
+        
+        if departamento == nombre_departamento:
+            date = int(registro["load_time"]).strftime("%Y-%m-%d")
+            
+            if initial_date <= date <= final_date:
+                total_registros +=1
+                
+                if registro["source"] == census:
+                    tipo_fuente = "CENSUS"
+                    total_census += 1
+                elif registro["source"] == survey:
+                    tipo_fuente = "SURVEY"
+                    total_survey += 1
+                
+                registros = {
+                    "Fuente": tipo_fuente,  
+                    "Año_Recopilacion": date,
+                    "Fecha_Carga": registro["load_time"].strftime("%Y-%m-%d"),
+                    "Frecuencia": registro["freq_collection"],
+                    "Tipo de Producto": registro["product_type"],
+                    "Unidad": registro["unit_measurement"]
+                }
+                registros_filtrados.append(registros)
+    if len(registros_filtrados) > 20:
+        registros_filtrados = registros_filtrados[:5] + registros_filtrados[-5:]
+        
+    end_time = get_time()  
+    tiempo_ejecucion = delta_time(start_time, end_time)
+
+    return {
+        "Tiempo de ejecución": tiempo_ejecucion,
+        "Total registros filtrados": total_registros,
+        "Total registros (SURVEY)": total_survey,
+        "Total registros (CENSUS)": total_census,
+        "Registros": registros_filtrados
+    }
 
 
 def req_7(catalog):
