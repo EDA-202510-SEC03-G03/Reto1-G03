@@ -70,19 +70,23 @@ def load_data(catalog, filename):
 # Funciones de consulta sobre el catálogo
 
 def menor_anio(catalog):
-    menor_anio = int(lt.first_element(catalog["year_collection"]))
-    for registro in catalog["year_collection"]:
-        anio = int(registro)
+    menor_anio = int(lt.first_element(catalog["year_collection"]).strip())
+
+    for anio in catalog["year_collection"]:
+        anio = int(anio.strip())  
         if anio < menor_anio:
             menor_anio = anio  
+            
     return menor_anio
 
 def mayor_anio(catalog):
-    mayor_anio = int(lt.first_element(catalog["year_collection"]))
-    for registro in catalog["year_collection"]:
-        anio = int(registro)
+    mayor_anio = int(lt.first_element(catalog["year_collection"]).strip())
+
+    for anio in catalog["year_collection"]:
+        anio = int(anio.strip())  # Convertimos a entero limpiando espacios
         if anio > mayor_anio:
             mayor_anio = anio  
+            
     return mayor_anio
 
 def primerosYUltimos(catalog):
@@ -169,13 +173,56 @@ def req_2(catalog, dep):
     return get_data(catalog, indexUR)
 
 
-def req_3(catalog):
+def req_3(catalog, nombre_departamento, year_inicio, year_final):
     """
     Retorna el resultado del requerimiento 3
     """
-    # TODO: Modificar el requerimiento 3
-    pass
-
+    start_time = get_time()
+    registros_copilados = []
+    total_registros = 0
+    total_survey = 0
+    total_census = 0 
+    survey = catalog["source"]["SURVEY"]
+    census = catalog["source"]["CENSUS"]
+    
+    for registro in catalog:
+        departamento = registro["state_name"]
+        if departamento == nombre_departamento:
+            year = int(registro["year_collection"])
+            
+            if year_inicio <= year <= year_final:
+                total_registros +=1
+                
+                if registro["source"] == census:
+                    tipo_fuente = "CENSUS"
+                    total_census += 1
+                elif registro["source"] == survey:
+                    tipo_fuente = "SURVEY"
+                    total_survey += 1
+                    
+                registros = {
+                    "Fuente": tipo_fuente,  
+                    "Año_Recopilacion": year,
+                    "Fecha_Carga": registro["load_time"].strftime("%Y-%m-%d"),
+                    "Frecuencia": registro["freq_collection"],
+                    "Tipo de Producto": registro["product_type"],
+                    "Unidad": registro["unit_measurement"]
+                }
+                registros_copilados.append(registros)
+                
+    if len(registros_copilados) > 20:
+        registros_filtrados = registros_copilados[:5] + registros_copilados[-5:]
+    end_time = get_time() 
+    tiempo_ejecucion = delta_time(start_time, end_time)
+    
+    return {
+        "Tiempo de ejecución": tiempo_ejecucion,
+        "Total registros filtrados": total_registros,
+        "Total registros (SURVEY)": total_survey,
+        "Total registros (CENSUS)": total_census,
+        "Registros": registros_filtrados
+    }
+        
 
 def req_4(catalog, producto, anio_inicio, anio_fin):
     """

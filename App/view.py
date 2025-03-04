@@ -33,8 +33,8 @@ def load_data(control):
     print_data(data, 0)
     print("Carga de datos completada.")
     print("Total de registros cargados: " + str(len(data["year_collection"])))
-    print("Menor anio de recoleccion: " + l.menor_anio(control))
-    print("Mayor anio de recoleccion: " + l.mayor_anio(control))
+    print("Menor año de recoleccion: " + min(data["year_collection"]))#l.menor_anio(control))
+    print("Mayor anio de recoleccion: " + max(data["year_collection"]))#l.mayor_anio(control))
     #primeros, ultimos = l.primerosYUltimos(control)
     #for regsitro in primeros:
     #    print_data(control, )
@@ -76,9 +76,19 @@ def print_req_3(control):
     """
         Función que imprime la solución del Requerimiento 3 en consola
     """
-    # TODO: Imprimir el resultado del requerimiento 3
-    pass
-
+    nombre_departamento = input("Ingrese el nombre del departamento: ")
+    year_inicio = int(input("Ingrese el año de inicio: "))
+    year_final = int(input("Ingrese el año de final: "))
+    
+    registros = l.req_3(control, nombre_departamento, year_inicio, year_final)
+    print("Tiempo de ejecución :", registros["Tiempo de ejecución (ms)"])
+    print("Total registros:", registros["Total registros"])
+    print("Total SURVEY:", registros["Total SURVEY"])
+    print("Total CENSUS:", registros["Total CENSUS"])
+    print("Registros:")
+    for registro in registros["Registros"]:
+        print(registro)
+    
 
 def print_req_4(control):
     """
