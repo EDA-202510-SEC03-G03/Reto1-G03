@@ -235,33 +235,30 @@ def req_4(catalog, producto, anio_inicio, anio_fin):
     total_survey = 0
     total_census = 0
     
-    for key, data in catalog.items():
-        try:
-            year = int(data['year_collection'])
-            if data['commodity'] == producto and anio_inicio <= year <= anio_fin:
-                registro = {
-                    "Fuente": data['source'],
-                    "Año_Recopilacion": year,
-                    "Fecha_Carga": data['load_time'],
-                    "Frecuencia": data['freq_collection'],
-                    "Departamento": data['location'],
-                    "Unidad": data['unit_measurement']
-                }
-                registros_filtrados.append(registro)
-                
-                if data['source'] == 'SURVEY':
-                    total_survey += 1
-                elif data['source'] == 'CENSUS':
-                    total_census += 1
-        except KeyError as e:
-            print(f"Advertencia: Falta la clave {e} en el registro {key}")
-        except ValueError:
-            print(f"Advertencia: No se pudo convertir el año en el registro {key}")
-
+    for i in range(len(catalog['commodity'])):
+        if catalog['commodity'][i] == producto and anio_inicio <= catalog['year_collection'][i] <= anio_fin:
+            registro = {
+                "Fuente": catalog['source'][i],
+                "Año_Recopilacion": catalog['year_collection'][i],
+                "Fecha_Carga": catalog['load_time'][i],
+                "Frecuencia": catalog['freq_collection'][i],
+                "Departamento": catalog['location'][i],
+                "Unidad": catalog['unit_measurement'][i]
+            }
+            registros_filtrados.append(registro)
+            
+            if catalog['source'][i] == 'SURVEY':
+                total_survey += 1
+            elif catalog['source'][i] == 'CENSUS':
+                total_census += 1
+    
     total_registros = len(registros_filtrados)
     
     fin = time.time()
-    tiempo_ejecucion = (fin - inicio) * 1000
+    tiempo_ejecucion = (fin - inicio) * 1000  # Convertir a milisegundos
+    
+    if total_registros > 20:
+        registros_filtrados = registros_filtrados[:5] + registros_filtrados[-5:]
     
     return {
         "Tiempo de ejecución (ms)": tiempo_ejecucion,
