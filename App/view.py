@@ -29,12 +29,12 @@ def load_data(control):
     Carga los datos
     """
     #TODO: Realizar la carga de datos
-    data = l.load_data(control, "Data/agricultural-20.csv") 
+    data, counter = l.load_data(control, "Data/agricultural-20.csv") 
     print_data(data, 0)
     print("Carga de datos completada.")
-    print("Total de registros cargados: " + str(len(data["year_collection"])))
-    print("Menor año de recoleccion: " + min(data["year_collection"]))#l.menor_anio(control))
-    print("Mayor anio de recoleccion: " + max(data["year_collection"]))#l.mayor_anio(control))
+    print("Total de registros cargados: " + str(counter))
+    print("Menor año de recoleccion: " + l.menor_anio(control))
+    print("Mayor anio de recoleccion: " + l.mayor_anio(control))
     #primeros, ultimos = l.primerosYUltimos(control)
     #for regsitro in primeros:
     #    print_data(control, )

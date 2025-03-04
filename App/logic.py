@@ -50,40 +50,43 @@ def load_data(catalog, filename):
     """
     # TODO: Realizar la carga de datos
     input_file = csv.DictReader(open(filename, encoding='utf-8'))
+    counter = 0
     for register in input_file:
-        line = str(register).split(",")
-
-        lt.add_last(catalog['source'], line[0])
-        lt.add_last(catalog['commodity'], line[1])
-        lt.add_last(catalog['statical_category'], line[2])
-        lt.add_last(catalog['unit_measurement'], line[3])
-        lt.add_last(catalog['state_name'], line[4])
-        lt.add_last(catalog['location'], line[5])
-        lt.add_last(catalog['year_collection'], line[6])
-        lt.add_last(catalog['freq_collection'], line[7])
-        lt.add_last(catalog['reference_period'], line[8])
-        lt.add_last(catalog['load_time'], line[9])
-        lt.add_last(catalog['value'], line[10])
+        line = str(register).split(',')
+        lt.add_last(catalog['source'], str(line[0]).strip("{'source': ''"))
+        lt.add_last(catalog['commodity'], str(line[1]).strip("{'commodity': ''"))
+        lt.add_last(catalog['statical_category'], str(line[2]).strip("{'statical_category': ''"))
+        lt.add_last(catalog['unit_measurement'], str(line[3]).strip("{'unit_measurement': ''"))
+        lt.add_last(catalog['state_name'], str(line[4]).strip("{'state_name': ''"))
+        lt.add_last(catalog['location'], str(line[5]).strip("{'location': ''"))
+        lt.add_last(catalog['year_collection'], str(line[6]).strip("{'year_collection': ''"))
+        lt.add_last(catalog['freq_collection'], str(line[7]).strip("{'freq_collection': ''"))
+        lt.add_last(catalog['reference_period'], str(line[8]).strip("{'reference_period': ''"))
+        lt.add_last(catalog['load_time'], str(line[9]).strip("{'load_time': ''"))
+        lt.add_last(catalog['value'], str(line[10]).strip("{'value': ''"))
+        counter +=1
     
-    return catalog
+    return catalog, counter
 
 # Funciones de consulta sobre el catálogo
 
 def menor_anio(catalog):
-    menor_anio = int(lt.first_element(catalog["year_collection"]).strip())
-
-    for anio in catalog["year_collection"]:
-        anio = int(anio.strip())  
+    
+    menor_anio = lt.first_element(catalog["year_collection"])
+    print(menor_anio)
+    for i in range(lt.size(catalog["year_collection"])):
+        print(lt.get_element(catalog["year_collection"], 1))
+        anio = int(lt.get_element(catalog["year_collection"], i))  
         if anio < menor_anio:
             menor_anio = anio  
             
     return menor_anio
 
 def mayor_anio(catalog):
-    mayor_anio = int(lt.first_element(catalog["year_collection"]).strip())
+    mayor_anio = int(lt.first_element(catalog["year_collection"]))
 
     for anio in catalog["year_collection"]:
-        anio = int(anio.strip())  # Convertimos a entero limpiando espacios
+        anio = int(anio)  # Convertimos a entero limpiando espacios
         if anio > mayor_anio:
             mayor_anio = anio  
             
