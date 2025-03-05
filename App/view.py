@@ -135,7 +135,7 @@ def print_req_4(control):
     print("Total SURVEY:", resultado["Total SURVEY"])
     print("Total CENSUS:", resultado["Total CENSUS"])
     print("Registros:")
-    for registro in resultado["Registros"]:
+    for registro in resultado["Registros"][:5] + resultado["Registros"][-5:] if len(resultado["Registros"]) > 20 else resultado["Registros"]:
         print(registro)
 
 def print_req_5(control):

@@ -191,30 +191,30 @@ def req_4(catalog, producto, anio_inicio, anio_fin):
     total_survey = 0
     total_census = 0
     
-    for i in range(len(catalog['commodity'])):
-        if catalog['commodity'][i] == producto and anio_inicio <= catalog['year_collection'][i] <= anio_fin:
-            registro = {
-                "Fuente": catalog['source'][i],
-                "Año_Recopilacion": catalog['year_collection'][i],
-                "Fecha_Carga": catalog['load_time'][i],
-                "Frecuencia": catalog['freq_collection'][i],
-                "Departamento": catalog['location'][i],
-                "Unidad": catalog['unit_measurement'][i]
-            }
-            registros_filtrados.append(registro)
+    
+    # Iterate over dictionary values
+    for i in range(lt.size(catalog["registros"])):
+        registro = lt.get_element(catalog["registros"], i) 
+        if registro["commodity"] == producto and anio_inicio <= int(registro["year_collection"]) <= anio_fin:
+            registros_filtrados.append({
+                "Fuente": registro["source"],
+                "Año_Recopilacion": registro["year_collection"],
+                "Fecha_Carga": registro["load_time"],
+                "Frecuencia": registro["freq_collection"],
+                "Departamento": registro["location"],
+                "Unidad": registro["unit_measurement"]
+            })
             
-            if catalog['source'][i] == 'SURVEY':
+            if registro["source"] == "SURVEY":
                 total_survey += 1
-            elif catalog['source'][i] == 'CENSUS':
+            elif registro["source"] == "CENSUS":
+
                 total_census += 1
     
     total_registros = len(registros_filtrados)
     
-    fin = get_time()
-    tiempo_ejecucion = delta_time(inicio, fin)
-    
-    if total_registros > 20:
-        registros_filtrados = registros_filtrados[:5] + registros_filtrados[-5:]
+    fin = time.time()
+    tiempo_ejecucion = (fin - inicio) * 1000  # Convertir a milisegundos
     
     return {
         "Tiempo de ejecución (ms)": tiempo_ejecucion,
