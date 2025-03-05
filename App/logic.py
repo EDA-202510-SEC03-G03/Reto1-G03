@@ -7,7 +7,7 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')
 
 from DataStructures import array_list as lt
 
-import datetime
+from datetime import datetime
 csv.field_size_limit(2147483647)
 
 def new_logic():
@@ -59,6 +59,7 @@ def mayor_anio(catalog):
             
     return mayor_anio
 
+"""
 def primerosYUltimos(catalog):
     primeros = lt.new_list()
     ultimos = lt.new_list()
@@ -68,6 +69,7 @@ def primerosYUltimos(catalog):
         lt.add_last(ultimos, get_data(catalog, len(catalog)-1-i))
         
     return primeros, ultimos
+    """
 
 def get_data(catalog, id):
     """
@@ -83,33 +85,24 @@ def req_1(catalog, anioB):
     Retorna el resultado del requerimiento 1
     """
     # TODO: Modificar el requerimiento 1
-    """""
-    fechasUltimoRegistro = ["0", "0", "0"]
-    horasUltimoRegistro = ["0", "0", "0"]
+
+    fechaUltimoRegistro = None
     indexUR = -1
-    for i in range(0, len(catalog['year_collection'])):
-        registro = catalog['load_time'][i]
-        fechaRegistro = str(registro[:9])
-        fechasRegistro = fechaRegistro.split("-")
-        horaRegistro = str(registro[10:])
-        horasRegistro = horaRegistro.split(":")
-        if int(catalog['year_collection'][i]) == int(anioB):
-            if int(fechasRegistro[0]) > int(fechasUltimoRegistro[0]):
-                if int(fechasRegistro[1]) > int(fechasUltimoRegistro[1]):
-                    if int(fechasRegistro[2]) > int(fechasUltimoRegistro[2]):
-                    """
-    fechaUltimoRegistro = ["0001-01-01 00:00:00"]
-    indexUR = -1
-    for i in range(0, len(catalog['year_collection'])):
-        if int(catalog['year_collection'][i]) == int(anioB):
-            fechaR = catalog['load_time'][i]
-            fechaDT = datetime.strptime(fechaR, "%Y-%m-%d %H:%M:%S")
-            fechaURDT = datetime.strptime(fechaUltimoRegistro, "%Y-%m-%d %H:%M:%S")
-            if fechaDT > fechaURDT:
+    for i in range(0, lt.size(catalog['registros'])):
+        anio = int(lt.get_element(catalog["registros"], i)["year_collection"])  
+        if anio == int(anioB):
+            fechaR = lt.get_element(catalog["registros"], i)["load_time"]
+            if fechaUltimoRegistro == None:
                 fechaUltimoRegistro = fechaR
                 indexUR = i
+            else:
+                fechaDT = datetime.strptime(fechaR, "%Y-%m-%d %H:%M:%S")
+                fechaURDT = datetime.strptime(fechaUltimoRegistro, "%Y-%m-%d %H:%M:%S")
+                if fechaDT > fechaURDT:
+                    fechaUltimoRegistro = fechaR
+                    indexUR = i
                 
-    return get_data(catalog, indexUR)
+    return indexUR
 
 
 def req_2(catalog, dep):

@@ -67,6 +67,7 @@ def print_data(control, id):
     print("El anio de recolección fue: " + e["year_collection"])
     print("La fecha de carga del registro fue: " + e["load_time"])
     print("El nombre del departamento del registro fue: " + e["state_name"])
+    print("El tipo de fuente/origen del registro fue: " + e["source"])
     print("La unidad de medición del registro es: " + e["unit_measurement"])
     print("El valor de la medición del registro es: " + e["value"])
     
@@ -76,7 +77,12 @@ def print_req_1(control):
         Función que imprime la solución del Requerimiento 1 en consola
     """
     # TODO: Imprimir el resultado del requerimiento 1
-    pass
+    anio_buscado = input('Ingrese el anio buscado: ')
+    i_resp = l.req_1(control, anio_buscado)
+    if i_resp == -1:
+        print("Anio no encontrado.")
+    else:
+        print_data(control, i_resp)
 
 
 def print_req_2(control):
