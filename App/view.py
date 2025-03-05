@@ -187,18 +187,21 @@ def print_req_6(control):
         Función que imprime la solución del Requerimiento 6 en consola
     """
     nombre_departamento = input("Ingrese el nombre de un departamento: ")
-    initial_date = int(input("Ingrese la fecha inicial: "))
-    final_date = int(input("Ingrese la fecha final: "))
+    initial_date = input("Ingrese la fecha inicial: ")
+    final_date = input("Ingrese la fecha final: ")
     
-    registros = l.req_6(control, nombre_departamento, initial_date, final_date)
+    resultado = l.req_6(control, nombre_departamento, initial_date, final_date)
     
-    print("Tiempo de ejecución (ms):", registros["Tiempo de ejecución (ms)"])
-    print("Total registros:", registros["Total registros"])
-    print("Total SURVEY:", registros["Total SURVEY"])
-    print("Total CENSUS:", registros["Total CENSUS"])
+    print("Tiempo de ejecución (ms):", round(float(resultado["Tiempo de ejecución"]), 3))
+    print("Total registros:", resultado["Total registros filtrados"])
+    print("Total SURVEY:", resultado["Total registros (SURVEY)"])
+    print("Total CENSUS:", resultado["Total registros (CENSUS)"])
     print("Registros:")
-    for registro in registros["Registros"]:
+    print("Registros:")
+    for registro in resultado["Registros"]:
         print(registro)
+   
+   
 
 
 def print_req_7(control):

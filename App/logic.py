@@ -262,31 +262,34 @@ def req_6(catalog, nombre_departamento, initial_date, final_date):
     total_registros = 0
     total_survey = 0
     total_census = 0
-    census = catalog["source"]["CENSUS"]
-    survey = catalog["source"]["SURVEY"]
     
-    for registro in catalog:
+    
+    for i in range(lt.size(catalog["registros"])):
+        registro = lt.get_element(catalog["registros"], i) 
         departamento = registro["state_name"]
         
         if departamento == nombre_departamento:
-            date = int(registro["load_time"]).strftime("%Y-%m-%d")
+            fecha_carga = registro["load_time"]
+            fecha_carga = datetime.strptime(fecha_carga, "%Y-%m-%d %H:%M:%S").strftime("%Y-%m-%d")
             
-            if initial_date <= date <= final_date:
+            if initial_date <= fecha_carga <= final_date:
                 total_registros +=1
                 
-                if registro["source"] == census:
+                if registro["source"] == "CENSUS":
                     tipo_fuente = "CENSUS"
                     total_census += 1
-                elif registro["source"] == survey:
+                elif registro["source"] == "SURVEY":
                     tipo_fuente = "SURVEY"
                     total_survey += 1
-                
+                fecha_carga = registro["load_time"]
+                fecha_carga = datetime.strptime(fecha_carga, "%Y-%m-%d %H:%M:%S").strftime("%Y-%m-%d")
+                year = int(registro["year_collection"])
                 registros = {
                     "Fuente": tipo_fuente,  
-                    "Año_Recopilacion": date,
-                    "Fecha_Carga": registro["load_time"].strftime("%Y-%m-%d"),
+                    "Año_Recopilacion": year,
+                    "Fecha_Carga": fecha_carga,
                     "Frecuencia": registro["freq_collection"],
-                    "Tipo de Producto": registro["product_type"],
+                    "Tipo de Producto": registro["commodity"],
                     "Unidad": registro["unit_measurement"]
                 }
                 registros_filtrados.append(registros)
