@@ -90,7 +90,12 @@ def print_req_2(control):
         Función que imprime la solución del Requerimiento 2 en consola
     """
     # TODO: Imprimir el resultado del requerimiento 2
-    pass
+    dep_buscado = input('Ingrese el departamento buscado: ')
+    i_resp = l.req_2(control, dep_buscado)
+    if i_resp == -1:
+        print("Anio no encontrado.")
+    else:
+        print_data(control, i_resp)
 
 
 def print_req_3(control):
