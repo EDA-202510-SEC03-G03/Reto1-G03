@@ -144,8 +144,6 @@ def req_3(catalog, nombre_departamento, year_inicio, year_final):
     
     for i in range(lt.size(catalog["registros"])):
         registro = lt.get_element(catalog["registros"], i) 
-        #survey = registro["source"]["SURVEY"]
-       # census = registro["source"]["CENSUS"]
         departamento = registro["state_name"]
         if departamento == nombre_departamento:
             year = int(registro["year_collection"])
