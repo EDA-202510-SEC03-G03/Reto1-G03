@@ -15,29 +15,9 @@ def new_logic():
     Crea el catalogo para almacenar las estructuras de datos
     """
     #TODO: Llama a las funciónes de creación de las estructuras de datos
-    catalog = {'source': None,
-               'commodity': None,
-               'statical_category': None,
-               'unit_measurement': None,
-               'state_name': None,
-               'location': None,
-               'year_collection': None,
-               'freq_collection': None,
-               'reference_period': None,
-               'load_time': None,
-               'value': None }
+    catalog = {'registros': None}
 
-    catalog['source'] = lt.new_list()
-    catalog['commodity'] = lt.new_list()
-    catalog['statical_category'] = lt.new_list()
-    catalog['unit_measurement'] = lt.new_list()
-    catalog['state_name'] = lt.new_list()
-    catalog['location'] = lt.new_list()
-    catalog["year_collection"] = lt.new_list()
-    catalog["freq_collection"] = lt.new_list()
-    catalog["reference_period"] = lt.new_list()
-    catalog["load_time"] = lt.new_list()
-    catalog["value"] = lt.new_list()
+    catalog["registros"] = lt.new_list()
     
     return catalog
 
@@ -52,41 +32,28 @@ def load_data(catalog, filename):
     input_file = csv.DictReader(open(filename, encoding='utf-8'))
     counter = 0
     for register in input_file:
-        line = str(register).split(',')
-        lt.add_last(catalog['source'], str(line[0]).strip("{'source': ''"))
-        lt.add_last(catalog['commodity'], str(line[1]).strip("{'commodity': ''"))
-        lt.add_last(catalog['statical_category'], str(line[2]).strip("{'statical_category': ''"))
-        lt.add_last(catalog['unit_measurement'], str(line[3]).strip("{'unit_measurement': ''"))
-        lt.add_last(catalog['state_name'], str(line[4]).strip("{'state_name': ''"))
-        lt.add_last(catalog['location'], str(line[5]).strip("{'location': ''"))
-        lt.add_last(catalog['year_collection'], str(line[6]).strip("{'year_collection': ''"))
-        lt.add_last(catalog['freq_collection'], str(line[7]).strip("{'freq_collection': ''"))
-        lt.add_last(catalog['reference_period'], str(line[8]).strip("{'reference_period': ''"))
-        lt.add_last(catalog['load_time'], str(line[9]).strip("{'load_time': ''"))
-        lt.add_last(catalog['value'], str(line[10]).strip("{'value': ''"))
+        lt.add_last(catalog["registros"], register)
         counter +=1
-    
+
     return catalog, counter
 
 # Funciones de consulta sobre el catálogo
 
 def menor_anio(catalog):
     
-    menor_anio = lt.first_element(catalog["year_collection"])
-    print(menor_anio)
-    for i in range(lt.size(catalog["year_collection"])):
-        print(lt.get_element(catalog["year_collection"], 1))
-        anio = int(lt.get_element(catalog["year_collection"], i))  
+    menor_anio = int(lt.first_element(catalog["registros"])["year_collection"])
+    for i in range(lt.size(catalog["registros"])):
+        anio = int(lt.get_element(catalog["registros"], i)["year_collection"])  
         if anio < menor_anio:
             menor_anio = anio  
             
     return menor_anio
 
 def mayor_anio(catalog):
-    mayor_anio = int(lt.first_element(catalog["year_collection"]))
-
-    for anio in catalog["year_collection"]:
-        anio = int(anio)  # Convertimos a entero limpiando espacios
+    
+    mayor_anio = int(lt.first_element(catalog["registros"])["year_collection"])
+    for i in range(lt.size(catalog["registros"])):
+        anio = int(lt.get_element(catalog["registros"], i)["year_collection"])  
         if anio > mayor_anio:
             mayor_anio = anio  
             
@@ -107,18 +74,7 @@ def get_data(catalog, id):
     Retorna un dato por su ID (posicion en el csv).
     """
     #TODO: Consulta en las Llamar la función del modelo para obtener un dato
-    resp = {"source": lt.get_element(catalog["source"], id),
-            "commodity": lt.get_element(catalog["commodity"], id),
-            "statical_category": lt.get_element(catalog["statical_category"], id),
-            "unit_measurement": lt.get_element(catalog["unit_measurement"], id),
-            "state_name": lt.get_element(catalog["state_name"], id),
-            "location": lt.get_element(catalog["location"], id),
-            "year_collection": lt.get_element(catalog["year_collection"], id),
-            "freq_collection": lt.get_element(catalog["freq_collection"], id),
-            "reference_period": lt.get_element(catalog["reference_period"], id),
-            "load_time": lt.get_element(catalog["load_time"], id),
-            "value": lt.get_element(catalog["value"], id),
-            }
+    resp = lt.get_element(catalog["registros"], id)
     return resp
 
 
