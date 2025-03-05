@@ -85,7 +85,7 @@ def req_1(catalog, anioB):
     Retorna el resultado del requerimiento 1
     """
     # TODO: Modificar el requerimiento 1
-
+    inicio = get_time()
     fechaUltimoRegistro = None
     indexUR = -1
     for i in range(0, lt.size(catalog['registros'])):
@@ -101,15 +101,16 @@ def req_1(catalog, anioB):
                 if fechaDT > fechaURDT:
                     fechaUltimoRegistro = fechaR
                     indexUR = i
-                
-    return indexUR
+    fin = time.time()
+    tiempo_ejecucion = (fin - inicio)  # Convertir a milisegundos
+    return indexUR, tiempo_ejecucion
 
 
 def req_2(catalog, depB):
     """
     Retorna el resultado del requerimiento 2
     """
-
+    inicio = get_time()
     fechaUltimoRegistro = None
     indexUR = -1
     for i in range(0, lt.size(catalog['registros'])):
@@ -125,8 +126,9 @@ def req_2(catalog, depB):
                 if fechaDT > fechaURDT:
                     fechaUltimoRegistro = fechaR
                     indexUR = i
-                
-    return indexUR
+    fin = time.time()
+    tiempo_ejecucion = (fin - inicio) # Convertir a milisegundos
+    return indexUR, tiempo_ejecucion
 
 
 def req_3(catalog, nombre_departamento, year_inicio, year_final):
@@ -214,7 +216,7 @@ def req_4(catalog, producto, anio_inicio, anio_fin):
     total_registros = len(registros_filtrados)
     
     fin = time.time()
-    tiempo_ejecucion = (fin - inicio) * 1000  # Convertir a milisegundos
+    tiempo_ejecucion = (fin - inicio)  # Convertir a milisegundos
     
     return {
         "Tiempo de ejecución (ms)": tiempo_ejecucion,
@@ -231,6 +233,7 @@ def req_5(catalog, stat_category, anioI, anioF):
     Retorna el resultado del requerimiento 5
     """
     # TODO: Modificar el requerimiento 5
+    inicio = get_time()
     resp_index = lt.new_list()
     surveys = 0
     census = 0
@@ -244,8 +247,9 @@ def req_5(catalog, stat_category, anioI, anioF):
                     census += 1
                 else: surveys +=1
     tamanio_resp = lt.size(resp_index)
-    
-    return resp_index, tamanio_resp, census, surveys
+    fin = time.time()
+    tiempo_ejecucion = (fin - inicio)  # Convertir a milisegundos
+    return resp_index, tamanio_resp, census, surveys, tiempo_ejecucion
 
 def req_6(catalog, nombre_departamento, initial_date, final_date):
     """

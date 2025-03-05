@@ -81,11 +81,12 @@ def print_req_1(control):
     """
     # TODO: Imprimir el resultado del requerimiento 1
     anio_buscado = input('Ingrese el anio buscado: ')
-    i_resp = l.req_1(control, anio_buscado)
+    i_resp, tiempo = l.req_1(control, anio_buscado)
     if i_resp == -1:
         print("Anio no encontrado.")
     else:
         print_data(control, i_resp)
+        print("El tiempo de ejecución en milisegundo fue de: " + str(round(tiempo, 3)))
 
 
 def print_req_2(control):
@@ -94,11 +95,12 @@ def print_req_2(control):
     """
     # TODO: Imprimir el resultado del requerimiento 2
     dep_buscado = input('Ingrese el departamento buscado: ')
-    i_resp = l.req_2(control, dep_buscado)
+    i_resp, tiempo = l.req_2(control, dep_buscado)
     if i_resp == -1:
         print("Anio no encontrado.")
     else:
         print_data(control, i_resp)
+        print("El tiempo de ejecución en milisegundo fue de: " + str(round(tiempo, 3)))
 
 
 def print_req_3(control):
@@ -130,7 +132,7 @@ def print_req_4(control):
     
     resultado = l.req_4(control, producto, anio_inicio, anio_fin)
     
-    print("Tiempo de ejecución (ms):", resultado["Tiempo de ejecución (ms)"])
+    print("Tiempo de ejecución (ms):", round(resultado["Tiempo de ejecución (ms)"], 3))
     print("Total registros:", resultado["Total registros"])
     print("Total SURVEY:", resultado["Total SURVEY"])
     print("Total CENSUS:", resultado["Total CENSUS"])
@@ -146,7 +148,7 @@ def print_req_5(control):
     cat = input("Ingrese la categoría estadística buscada: ")
     anioI = input("Ingrese el año inicial del periodo a consultar: ")
     anioF = input("Ingrese el año final del periodo a consultar: ")
-    lista_indices, tamanio, census, surveys = l.req_5(control, cat, anioI, anioF)
+    lista_indices, tamanio, census, surveys, tiempo = l.req_5(control, cat, anioI, anioF)
     print("")
     print("El número total de registros es: " + str(tamanio))
     print("")
@@ -172,6 +174,8 @@ def print_req_5(control):
     else:
         for i in range(tamanio):
             print_data(lista_indices, i)
+            
+    print("El tiempo de ejecución en milisegundo fue de: " + str(round(tiempo, 3)))
 
 
 def print_req_6(control):
