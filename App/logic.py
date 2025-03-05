@@ -126,8 +126,8 @@ def req_2(catalog, depB):
                 if fechaDT > fechaURDT:
                     fechaUltimoRegistro = fechaR
                     indexUR = i
-    fin = time.time()
-    tiempo_ejecucion = (fin - inicio) 
+    fin = get_time()
+    tiempo_ejecucion = delta_time(inicio, fin) 
     return indexUR, tiempo_ejecucion
 
 
@@ -217,8 +217,8 @@ def req_4(catalog, producto, anio_inicio, anio_fin):
     
     total_registros = len(registros_filtrados)
     
-    fin = time.time()
-    tiempo_ejecucion = (fin - inicio) 
+    fin = get_time()
+    tiempo_ejecucion = delta_time(inicio, fin) 
     
     return {
         "Tiempo de ejecución (ms)": tiempo_ejecucion,
@@ -249,8 +249,8 @@ def req_5(catalog, stat_category, anioI, anioF):
                     census += 1
                 else: surveys +=1
     tamanio_resp = lt.size(resp_index)
-    fin = time.time()
-    tiempo_ejecucion = (fin - inicio) 
+    fin = get_time()
+    tiempo_ejecucion = delta_time(inicio, fin)
     return resp_index, tamanio_resp, census, surveys, tiempo_ejecucion
 
 def req_6(catalog, nombre_departamento, initial_date, final_date):
