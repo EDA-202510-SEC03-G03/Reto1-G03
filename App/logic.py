@@ -102,7 +102,7 @@ def req_1(catalog, anioB):
                     fechaUltimoRegistro = fechaR
                     indexUR = i
     fin = time.time()
-    tiempo_ejecucion = (fin - inicio)  # Convertir a milisegundos
+    tiempo_ejecucion = (fin - inicio) 
     return indexUR, tiempo_ejecucion
 
 
@@ -127,7 +127,7 @@ def req_2(catalog, depB):
                     fechaUltimoRegistro = fechaR
                     indexUR = i
     fin = time.time()
-    tiempo_ejecucion = (fin - inicio) # Convertir a milisegundos
+    tiempo_ejecucion = (fin - inicio) 
     return indexUR, tiempo_ejecucion
 
 
@@ -250,7 +250,7 @@ def req_5(catalog, stat_category, anioI, anioF):
                 else: surveys +=1
     tamanio_resp = lt.size(resp_index)
     fin = time.time()
-    tiempo_ejecucion = (fin - inicio)  # Convertir a milisegundos
+    tiempo_ejecucion = (fin - inicio) 
     return resp_index, tamanio_resp, census, surveys, tiempo_ejecucion
 
 def req_6(catalog, nombre_departamento, initial_date, final_date):
