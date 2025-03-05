@@ -226,12 +226,26 @@ def req_4(catalog, producto, anio_inicio, anio_fin):
 
 
 
-def req_5(catalog):
+def req_5(catalog, stat_category, anioI, anioF):
     """
     Retorna el resultado del requerimiento 5
     """
     # TODO: Modificar el requerimiento 5
-    pass
+    resp_index = lt.new_list()
+    surveys = 0
+    census = 0
+    for i in range(0, lt.size(catalog['registros'])):
+        statC = lt.get_element(catalog["registros"], i)["statical_category"]
+        if stat_category == statC:
+            anio = int(lt.get_element(catalog["registros"], i)["year_collection"])  
+            if (int(anio) <= int(anioF)) and (int(anio) >= int(anioI)):
+                lt.add_last(resp_index, i)
+                if lt.get_element(catalog["registros"], i)["source"] ==  "CENSUS":
+                    census += 1
+                else: surveys +=1
+    tamanio_resp = lt.size(resp_index)
+    
+    return resp_index, tamanio_resp, census, surveys
 
 def req_6(catalog, nombre_departamento, initial_date, final_date):
     """

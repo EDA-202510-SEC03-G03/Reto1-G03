@@ -1,5 +1,6 @@
 import sys
 from App import logic as l
+from DataStructures import array_list as lt
 
 
 def new_logic():
@@ -66,10 +67,12 @@ def print_data(control, id):
     print("Para el registro indicado la informacion es: ")
     print("El anio de recolección fue: " + e["year_collection"])
     print("La fecha de carga del registro fue: " + e["load_time"])
+    print("La frecuencia de recopilación del registro fue: " + e["freq_collection"])
     print("El nombre del departamento del registro fue: " + e["state_name"])
     print("El tipo de fuente/origen del registro fue: " + e["source"])
     print("La unidad de medición del registro es: " + e["unit_measurement"])
     print("El valor de la medición del registro es: " + e["value"])
+    print("El tipo de producto del registro es : " + e["commodity"])
     
 
 def print_req_1(control):
@@ -140,7 +143,35 @@ def print_req_5(control):
         Función que imprime la solución del Requerimiento 5 en consola
     """
     # TODO: Imprimir el resultado del requerimiento 5
-    pass
+    cat = input("Ingrese la categoría estadística buscada: ")
+    anioI = input("Ingrese el año inicial del periodo a consultar: ")
+    anioF = input("Ingrese el año final del periodo a consultar: ")
+    lista_indices, tamanio, census, surveys = l.req_5(control, cat, anioI, anioF)
+    print("")
+    print("El número total de registros es: " + str(tamanio))
+    print("")
+    print("El número total de registros SURVEY es: " + str(surveys))
+    print("")
+    print("El número total de registros CENSUS es: " + str(census))
+    print("")
+    
+    if tamanio > 20: 
+         print("La información de los primeros 5 registros son: ")
+         print("")
+         for i in range(5):
+            print_data(control, lt.get_element(lista_indices, i))
+            print("")
+        
+         print("")
+         print("")
+         print("La información de los últimos 5 registros son: ")
+         print("")
+         for i in range(5):
+            print_data(control, lt.get_element(lista_indices, tamanio - 1 - i))
+            print("")
+    else:
+        for i in range(tamanio):
+            print_data(lista_indices, i)
 
 
 def print_req_6(control):
