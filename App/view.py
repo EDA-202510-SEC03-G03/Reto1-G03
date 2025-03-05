@@ -112,13 +112,14 @@ def print_req_3(control):
     year_final = int(input("Ingrese el año de final: "))
     
     registros = l.req_3(control, nombre_departamento, year_inicio, year_final)
-    print("Tiempo de ejecución :", registros["Tiempo de ejecución (ms)"])
-    print("Total registros:", registros["Total registros"])
-    print("Total SURVEY:", registros["Total SURVEY"])
-    print("Total CENSUS:", registros["Total CENSUS"])
+    print("Tiempo de ejecución:", "tiempo_ejecucion")
+    print("Total registros:", "total_registros")
+    print("Total SURVEY:", "total_survey")
+    print("Total CENSUS:", "total_census")
     print("Registros:")
     for registro in registros["Registros"]:
         print(registro)
+
     
 
 def print_req_4(control):
