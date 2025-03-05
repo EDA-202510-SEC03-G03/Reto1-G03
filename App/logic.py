@@ -85,7 +85,7 @@ def req_1(catalog, anioB):
     Retorna el resultado del requerimiento 1
     """
     # TODO: Modificar el requerimiento 1
-    inicio = get_time()
+    inicio = time.time()
     fechaUltimoRegistro = None
     indexUR = -1
     for i in range(0, lt.size(catalog['registros'])):
@@ -399,7 +399,7 @@ def get_time():
     """
     devuelve el instante tiempo de procesamiento en milisegundos
     """
-    return float(time.perf_counter()*1000)
+    return float(time.time()*1000)
 
 
 def delta_time(start, end):
