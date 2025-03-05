@@ -181,7 +181,7 @@ def req_4(catalog, producto, anio_inicio, anio_fin):
     Retorna el resultado del requerimiento 4
     """
     # TODO: Modificar el requerimiento 4
-    inicio = time.time()
+    inicio = get_time()
     
     registros_filtrados = []
     total_survey = 0
@@ -206,8 +206,8 @@ def req_4(catalog, producto, anio_inicio, anio_fin):
     
     total_registros = len(registros_filtrados)
     
-    fin = time.time()
-    tiempo_ejecucion = (fin - inicio) * 1000  # Convertir a milisegundos
+    fin = get_time()
+    tiempo_ejecucion = delta_time(inicio, fin)
     
     if total_registros > 20:
         registros_filtrados = registros_filtrados[:5] + registros_filtrados[-5:]
