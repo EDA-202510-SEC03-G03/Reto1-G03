@@ -307,12 +307,81 @@ def req_6(catalog, nombre_departamento, initial_date, final_date):
     }
 
 
-def req_7(catalog):
+def req_7(catalog, departamento, anio_inicio, anio_fin):
     """
     Retorna el resultado del requerimiento 7
     """
     # TODO: Modificar el requerimiento 7
-    pass
+
+    start_time = get_time()
+    
+    registros = catalog["registros"]
+    
+    registros_filtrados = [
+        lt.get_element(registros, i) for i in range(lt.size(registros))
+        if lt.get_element(registros, i)["state_name"] == departamento and 
+           anio_inicio <= int(lt.get_element(registros, i)["year_collection"]) <= anio_fin
+    ]
+    
+    if not registros_filtrados:
+        return "No records found for the given filters."
+    
+    ingresos_por_anio = {}
+    survey_count = 0
+    census_count = 0
+    invalid_unit_count = 0
+    registros_count = len(registros_filtrados)
+    
+    for registro in registros_filtrados:
+        anio = int(registro["year_collection"])
+        valores = registro["value"].replace(",", "").strip()
+        tipo = registro["source"]
+
+        if "$" in valores or not valores.isdigit():
+            invalid_unit_count += 1
+            continue 
+
+        ingreso = float(valores)
+
+        if tipo == "SURVEY":
+            survey_count += 1
+        elif tipo == "CENSUS":
+            census_count += 1
+
+        if anio not in ingresos_por_anio:
+            ingresos_por_anio[anio] = 0
+
+        ingresos_por_anio[anio] += ingreso 
+
+    if not ingresos_por_anio:
+        return "No valid income data found."
+
+    max_anio = max(ingresos_por_anio, key=ingresos_por_anio.get)
+    min_anio = min(ingresos_por_anio, key=ingresos_por_anio.get)
+
+    end_time = get_time() 
+    execution_time = delta_time(start_time, end_time)
+
+    result = {
+        "execution_time_ms": execution_time,
+        "total_records": registros_count,
+        "max_income_period": {
+            "year": max_anio, 
+            "status": "MAYOR", 
+            "income": ingresos_por_anio[max_anio]
+        },
+        "min_income_period": {
+            "year": min_anio, 
+            "status": "MENOR", 
+            "income": ingresos_por_anio[min_anio]
+        },
+        "valid_records_count": registros_count - invalid_unit_count,
+        "invalid_unit_count": invalid_unit_count,
+        "survey_count": survey_count,
+        "census_count": census_count,
+    }
+
+    return result
 
 
 def req_8(catalog):

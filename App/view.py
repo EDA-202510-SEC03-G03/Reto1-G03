@@ -203,7 +203,27 @@ def print_req_7(control):
         Función que imprime la solución del Requerimiento 7 en consola
     """
     # TODO: Imprimir el resultado del requerimiento 7
-    pass
+    departamento = input("Ingrese el nombre de un departamento: ")
+    initial_date = int(input("Ingrese la fecha inicial: "))
+    final_date = int(input("Ingrese la fecha final: "))
+
+    resultado = l.req_7(control, departamento, initial_date, final_date)
+
+    print("\nTiempo de ejecución (ms):", resultado["execution_time_ms"])
+    print("Número total de registros que cumplieron el filtro:", resultado["total_records"])
+    print("Número de registros con unidad de medida no válida:", resultado["invalid_unit_count"])
+    print("Número de registros con fuente 'SURVEY':", resultado["survey_count"])
+    print("Número de registros con fuente 'CENSUS':", resultado["census_count"])
+
+    print("\n🔹 Período con MAYOR ingreso:")
+    print("Año de recopilación:", resultado["max_income_period"]["year"])
+    print("Tipo de período: MAYOR")
+    print("Valor de ingresos:", resultado["max_income_period"]["income"])
+
+    print("\n🔹 Período con MENOR ingreso:")
+    print("Año de recopilación:", resultado["min_income_period"]["year"])
+    print("Tipo de período: MENOR")
+    print("Valor de ingresos:", resultado["min_income_period"]["income"])
 
 
 def print_req_8(control):
