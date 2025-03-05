@@ -218,7 +218,7 @@ def req_4(catalog, producto, anio_inicio, anio_fin):
     total_registros = len(registros_filtrados)
     
     fin = time.time()
-    tiempo_ejecucion = (fin - inicio)  # Convertir a milisegundos
+    tiempo_ejecucion = (fin - inicio) 
     
     return {
         "Tiempo de ejecución (ms)": tiempo_ejecucion,
